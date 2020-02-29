@@ -3,9 +3,110 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">    
     <title>City-Bank</title>
 </head>
+
 <body>
-    
+   
+   <div id="login-area" >
+        <h1 class="text-center">Welcome to City-Bank</h1>
+        <div class ="submit-area">
+            <h4>Login</h4>
+            <input type="text" class="form-control" placeholder="email">
+            <br>
+            <input type="password" placeholder="password" class="form-control">
+            <br>
+            <button id="submit" class="btn btn-success">Submit</button>
+        </div>
+   </div>
+   <div id="transition-area">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="deposit status">
+                    <h5>Deposit</h5>
+                    <h3>$<span id="currentDeposit">00</span></h3>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="withdraw status">
+                    <h5>Withdraw</h5>
+                    <h3>$<span id="currentWithdraw">00</span></h3>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="balance status">
+                    <h5>Balance</h5>
+                    <h3>$<span id="currentBalance">00</span></h3>
+                </div>
+            </div>
+        </div>
+   </div>
+   <div class="row">
+        <div class="col-md-6">
+            <div class="submit-area">
+                <h4>Deposit</h4>
+                <input id="depositAmount" type="text" class="form-control" placeholder="$amount you want to deposit">
+                <br>
+                <button id="addDeposit" class="btn btn-success">Deposit</button>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="submit-area">
+                <h4>Withdraw</h4>
+                <input id="withdrawAmount" type="text" class="form-control"
+                placeholder="$amount you want to withdraw">
+                <br>
+                <button id="addWithdraw" class="btn btn-success">withdraw</button>
+            </div>
+      </div>
+   </div>
+
+   <script>
+
+       //login area event handler
+       const submitBtn = document.getElementById("submit");
+       submitBtn.addEventListener("click", function(){
+        const loginArea = document.getElementById("login-area");
+        loginArea.style.display="none";
+        const transitionArea = document.getElementById("transition-area");
+        transitionArea.style.display = "block";
+       })
+
+       //deposit button event handler
+        const depositBtn = document.getElementById("addDeposit");
+        depositBtn.addEventListener("click", function(){
+        const depositNumber = getInputNumber("depositAmount");
+
+        updateSpanText("currentDeposit",depositNumber);
+        updateSpanText("currentBalance", depositNumber);
+        document.getElementById("depositAmount").value = "";
+       })
+
+       //withdraw button event handler
+        const withdrawBtn = document.getElementById("addWithdraw");
+        withdrawBtn.addEventListener("click", function () {
+        const withdrawNumber = getInputNumber("withdrawAmount");
+
+        updateSpanText("currentWithdraw", withdrawNumber);
+        updateSpanText("currentBalance", -1 * withdrawNumber);
+        document.getElementById("withdrawAmount").value = "";
+        })
+
+        //functions for event handler
+        function getInputNumber(id){
+            const amount = document.getElementById(id).value;
+            const amountNumber = parseFloat(amount);
+            return amountNumber;
+        }
+        function updateSpanText(id, depositNumber) {
+            const current = document.getElementById(id).innerText;
+            const currentNumber = parseFloat(current);
+            const total = depositNumber + currentNumber;
+            document.getElementById(id).innerText = total;
+        }
+   </script>
 </body>
 </html>
